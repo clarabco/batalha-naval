@@ -1,0 +1,1 @@
+draw_sprite_stretched(spr_fundo, 0, 0, 0, room_width, room_height);
