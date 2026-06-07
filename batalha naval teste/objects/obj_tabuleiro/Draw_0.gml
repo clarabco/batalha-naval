@@ -16,13 +16,50 @@ for (var t = 0; t < 2; t++) {
         }
     }
 }
-
-draw_set_font(-1);
+draw_set_font(fnt_titulo);
 draw_set_halign(fa_center);
 draw_set_color(c_white);
-draw_set_font(fnt_titulo);
 draw_text(grid1_x + 250, grid1_y - 60, "JOGADOR");
 draw_text(grid2_x + 250, grid2_y - 60, "OPONENTE");
 draw_set_halign(fa_left);
 
+// desenha as naves já posicionadas
+for (var c = 0; c < grid_cols; c++) {
+    for (var r = 0; r < grid_rows; r++) {
+        var nave_id = grid_data[c, r];
+        if (nave_id >= 0) {
+            if (r == 0 || grid_data[c, r-1] != nave_id) {
+                var tamanho = naves[nave_id, 1];
+                var largura = naves[nave_id, 2];
+                draw_sprite_stretched(naves[nave_id, 0], 0,
+                    grid1_x + c * cell_size,
+                    grid1_y + r * cell_size,
+                    cell_size * largura, cell_size * tamanho);
+            }
+        }
+    }
+}
+
+// mostra nave atual seguindo o mouse durante posicionamento
+if (posicionando && nave_atual < 5) {
+    var mx = mouse_x;
+    var my = mouse_y;
+    var col = floor((mx - grid1_x) / cell_size);
+    var row = floor((my - grid1_y) / cell_size);
+    
+    if (col >= 0 && col < grid_cols && row >= 0 && row < grid_rows) {
+        var tamanho = naves[nave_atual, 1];
+        var largura = naves[nave_atual, 2];
+        draw_sprite_stretched(naves[nave_atual, 0], 0, 
+            grid1_x + col * cell_size, 
+            grid1_y + row * cell_size, 
+            cell_size * largura, cell_size * tamanho);
+    }
+    
+    draw_set_halign(fa_center);
+	draw_set_color(c_yellow);
+	draw_text(room_width / 2, grid1_y - 125, "Posicionando nave " + string(nave_atual + 1) + " de 5");
+	draw_set_color(c_white);
+	draw_set_halign(fa_left);
+}
 draw_set_alpha(1);
