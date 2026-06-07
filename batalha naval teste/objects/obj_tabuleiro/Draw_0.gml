@@ -16,4 +16,13 @@ for (var t = 0; t < 2; t++) {
         }
     }
 }
+
+draw_set_font(-1);
+draw_set_halign(fa_center);
+draw_set_color(c_white);
+draw_set_font(fnt_titulo);
+draw_text(grid1_x + 250, grid1_y - 60, "JOGADOR");
+draw_text(grid2_x + 250, grid2_y - 60, "OPONENTE");
+draw_set_halign(fa_left);
+
 draw_set_alpha(1);

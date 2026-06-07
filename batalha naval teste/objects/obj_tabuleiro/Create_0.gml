@@ -1,11 +1,11 @@
-cell_size = 40;
+cell_size = 50;
 grid_cols = 10;
 grid_rows = 10;
 
 // tabuleiro do jogador (esquerda)
-grid1_x = 133;
-grid1_y = 150;
+grid1_x = 122;
+grid1_y = 154;
 
 // tabuleiro do inimigo (direita)
-grid2_x = 833;
-grid2_y = 150;
+grid2_x = 744;
+grid2_y = 154;
