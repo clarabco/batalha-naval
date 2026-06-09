@@ -79,3 +79,5 @@ for (var c = 0; c < grid_cols; c++) {
         tiros_oponente[c, r] = 0;
     }
 }
+
+game_over = false;

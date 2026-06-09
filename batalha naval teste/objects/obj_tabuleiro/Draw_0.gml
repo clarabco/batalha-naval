@@ -63,6 +63,27 @@ for (var c = 0; c < grid_cols; c++) {
 }
 draw_set_color(c_white);
 
+// revela naves do oponente no game over
+if (game_over) {
+    for (var c = 0; c < grid_cols; c++) {
+        for (var r = 0; r < grid_rows; r++) {
+            var nave_id = grid_oponente[c, r];
+            if (nave_id >= 0) {
+                var eh_primeira_col = (c == 0 || grid_oponente[c-1, r] != nave_id);
+                var eh_primeira_linha = (r == 0 || grid_oponente[c, r-1] != nave_id);
+                if (eh_primeira_col && eh_primeira_linha) {
+                    var tamanho = naves[nave_id, 1];
+                    var largura = naves[nave_id, 2];
+                    draw_sprite_stretched(naves[nave_id, 0], 0,
+                        grid2_x + c * cell_size,
+                        grid1_y + r * cell_size,
+                        cell_size * largura, cell_size * tamanho);
+                }
+            }
+        }
+    }
+}
+
 // desenha os tiros do oponente no tabuleiro do jogador
 for (var c = 0; c < grid_cols; c++) {
     for (var r = 0; r < grid_rows; r++) {
@@ -104,4 +125,13 @@ if (posicionando && nave_atual < 5) {
 	draw_set_color(c_white);
 	draw_set_halign(fa_left);
 }
+
+if (game_over) {
+    draw_set_halign(fa_center);
+    draw_set_font(fnt_titulo);
+    draw_set_color(c_yellow);
+    draw_text(room_width / 2, 50, "GAME OVER - Clique para reiniciar");
+    draw_set_halign(fa_left);
+}
+
 draw_set_alpha(1);

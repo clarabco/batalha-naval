@@ -1,3 +1,8 @@
+if (game_over) {
+    game_restart();
+    exit;
+}
+
 if (posicionando && nave_atual < 5) {
     var col = floor((mouse_x - grid1_x) / cell_size);
     var row = floor((mouse_y - grid1_y) / cell_size);
@@ -76,8 +81,8 @@ for (var c = 0; c < grid_cols; c++) {
     }
 }
 if (total_celulas_op == acertadas_op && acertadas_op > 0) {
-    show_message("VOCÊ VENCEU! Todas as naves inimigas foram destruídas!");
-    game_restart();
+    game_over = true;
+	show_message("VOCÊ VENCEU! Todas as naves inimigas foram destruídas!");
 }
 
 // verifica derrota
@@ -92,6 +97,6 @@ for (var c = 0; c < grid_cols; c++) {
     }
 }
 if (total_celulas_jog == acertadas_jog && acertadas_jog > 0) {
-    show_message("VOCÊ PERDEU! Suas naves foram todas destruídas!");
-    game_restart();
+    game_over = true;
+	show_message("VOCÊ PERDEU! Suas naves foram todas destruídas!");
 }
