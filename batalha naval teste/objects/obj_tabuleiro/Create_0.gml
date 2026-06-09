@@ -1,3 +1,5 @@
+//TABULEIRO
+
 cell_size = 50;
 grid_cols = 10;
 grid_rows = 10;
@@ -24,5 +26,56 @@ posicionando = true;   // true = fase de posicionamento
 for (var c = 0; c < grid_cols; c++) {
     for (var r = 0; r < grid_rows; r++) {
         grid_data[c, r] = -1; // -1 = vazio
+    }
+}
+
+//===========================================
+//SISTEMA DO JOGO
+
+// grade de tiros no tabuleiro do oponente
+for (var c = 0; c < grid_cols; c++) {
+    for (var r = 0; r < grid_rows; r++) {
+        tiros[c, r] = 0; // 0 = não atirou, 1 = errou, 2 = acertou
+    }
+}
+
+// naves do oponente (posicionadas aleatoriamente)
+for (var c = 0; c < grid_cols; c++) {
+    for (var r = 0; r < grid_rows; r++) {
+        grid_oponente[c, r] = -1;
+    }
+}
+
+// posiciona naves do oponente aleatoriamente
+for (var n = 0; n < 5; n++) {
+    var tamanho = naves[n, 1];
+    var largura = naves[n, 2];
+    var colocado = false;
+    while (!colocado) {
+        var rc = irandom(grid_cols - largura);
+        var rr = irandom(grid_rows - tamanho);
+        var livre = true;
+        for (var i = 0; i < tamanho && livre; i++) {
+            for (var j = 0; j < largura && livre; j++) {
+                if (grid_oponente[rc + j, rr + i] != -1) {
+                    livre = false;
+                }
+            }
+        }
+        if (livre) {
+            for (var i = 0; i < tamanho; i++) {
+                for (var j = 0; j < largura; j++) {
+                    grid_oponente[rc + j, rr + i] = n;
+                }
+            }
+            colocado = true;
+        }
+    }
+}
+
+// grade de tiros do oponente no tabuleiro do jogador
+for (var c = 0; c < grid_cols; c++) {
+    for (var r = 0; r < grid_rows; r++) {
+        tiros_oponente[c, r] = 0;
     }
 }

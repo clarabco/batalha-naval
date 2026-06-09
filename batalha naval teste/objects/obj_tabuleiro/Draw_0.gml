@@ -7,8 +7,8 @@ for (var t = 0; t < 2; t++) {
         for (var row = 0; row < grid_rows; row++) {
             var cx = gx + col * cell_size;
             var cy = gy + row * cell_size;
-            draw_set_alpha(0.3);
-            draw_set_color(c_navy);
+            draw_set_alpha(0.2);
+            draw_set_color(make_color_rgb(199, 39, 39));
             draw_rectangle(cx, cy, cx + cell_size, cy + cell_size, false);
             draw_set_alpha(1);
             draw_set_color(c_white);
@@ -28,7 +28,9 @@ for (var c = 0; c < grid_cols; c++) {
     for (var r = 0; r < grid_rows; r++) {
         var nave_id = grid_data[c, r];
         if (nave_id >= 0) {
-            if (r == 0 || grid_data[c, r-1] != nave_id) {
+            var eh_primeira_col = (c == 0 || grid_data[c-1, r] != nave_id);
+            var eh_primeira_linha = (r == 0 || grid_data[c, r-1] != nave_id);
+            if (eh_primeira_col && eh_primeira_linha) {
                 var tamanho = naves[nave_id, 1];
                 var largura = naves[nave_id, 2];
                 draw_sprite_stretched(naves[nave_id, 0], 0,
@@ -39,6 +41,46 @@ for (var c = 0; c < grid_cols; c++) {
         }
     }
 }
+
+// desenha os tiros no tabuleiro do oponente
+for (var c = 0; c < grid_cols; c++) {
+    for (var r = 0; r < grid_rows; r++) {
+        var cx = grid2_x + c * cell_size + cell_size/2;
+        var cy = grid1_y + r * cell_size + cell_size/2;
+        var raio = cell_size/3;
+        
+        if (tiros[c, r] == 1) {
+            // errou - X vermelho
+            draw_set_color(make_color_rgb(199, 39, 39));
+            draw_line_width(cx - raio, cy - raio, cx + raio, cy + raio, 3);
+            draw_line_width(cx + raio, cy - raio, cx - raio, cy + raio, 3);
+        } else if (tiros[c, r] == 2) {
+            // acertou - círculo branco
+            draw_set_color(c_white);
+            draw_circle(cx, cy, raio, false);
+        }
+    }
+}
+draw_set_color(c_white);
+
+// desenha os tiros do oponente no tabuleiro do jogador
+for (var c = 0; c < grid_cols; c++) {
+    for (var r = 0; r < grid_rows; r++) {
+        var cx = grid1_x + c * cell_size + cell_size/2;
+        var cy = grid1_y + r * cell_size + cell_size/2;
+        var raio = cell_size/3;
+        
+        if (tiros_oponente[c, r] == 1) {
+            draw_set_color(make_color_rgb(199, 39, 39));
+            draw_line_width(cx - raio, cy - raio, cx + raio, cy + raio, 3);
+            draw_line_width(cx + raio, cy - raio, cx - raio, cy + raio, 3);
+        } else if (tiros_oponente[c, r] == 2) {
+            draw_set_color(c_white);
+            draw_circle(cx, cy, raio, false);
+        }
+    }
+}
+draw_set_color(c_white);
 
 // mostra nave atual seguindo o mouse durante posicionamento
 if (posicionando && nave_atual < 5) {
@@ -57,7 +99,7 @@ if (posicionando && nave_atual < 5) {
     }
     
     draw_set_halign(fa_center);
-	draw_set_color(c_yellow);
+	draw_set_color(make_color_rgb(199, 39, 39))
 	draw_text(room_width / 2, grid1_y - 125, "Posicionando nave " + string(nave_atual + 1) + " de 5");
 	draw_set_color(c_white);
 	draw_set_halign(fa_left);
